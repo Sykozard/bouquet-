@@ -1,0 +1,610 @@
+/* ═══════════════════════════════════════════════════════════
+   ROSE GARDEN — For Riji
+   Complete stylesheet — no placeholders, no shortcuts
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blush:       #ffd6e0;
+  --rose:        #e8739a;
+  --deep-rose:   #c41e6b;
+  --peach:       #fde8d8;
+  --gold:        #f0d080;
+  --gold-dim:    #c8a840;
+  --soft-white:  #fff8f5;
+  --bg-dark:     #110509;
+  --bg-mid:      #1e0b12;
+  --fog-color:   rgba(255, 210, 225, 0.06);
+  --glow-pink:   rgba(232, 115, 154, 0.35);
+  --font-script: 'Dancing Script', cursive;
+  --font-serif:  'Cormorant Garamond', Georgia, serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-dark);
+  color: var(--soft-white);
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  cursor: default;
+}
+
+/* ─── Tap Overlay ───────────────────────────────────────────── */
+#tap-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: radial-gradient(ellipse at 50% 60%,
+    #2a0c18 0%,
+    #130509 55%,
+    #080205 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#tap-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  animation: overlayFloat 4s ease-in-out infinite;
+}
+
+.overlay-rose-icon {
+  width: 90px;
+  height: 90px;
+  filter: drop-shadow(0 0 24px rgba(232, 115, 154, 0.6))
+          drop-shadow(0 0 50px rgba(196, 30, 107, 0.3));
+  animation: overlayRosePulse 3s ease-in-out infinite;
+}
+
+.overlay-hint {
+  font-family: var(--font-script);
+  font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+  font-weight: 400;
+  color: #f0c8d8;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 30px rgba(232, 115, 154, 0.6),
+               0 0 60px rgba(196, 30, 107, 0.3);
+  opacity: 0;
+  animation: overlayTextFade 2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+}
+
+.overlay-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rose);
+  box-shadow: 0 0 12px var(--rose), 0 0 30px var(--glow-pink);
+  animation: pulseGlow 2.2s ease-in-out infinite;
+}
+
+/* ─── Scene Container ───────────────────────────────────────── */
+#scene {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse 90% 100% at 50% 110%,
+    #2d0f1c 0%,
+    #1a0a12 40%,
+    #0d0408 100%
+  );
+  opacity: 0;
+  transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#scene.revealed {
+  opacity: 1;
+}
+
+/* ─── Ambient Orbs ──────────────────────────────────────────── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.orb-a {
+  width: 60vw;
+  height: 60vw;
+  max-width: 700px;
+  max-height: 700px;
+  background: radial-gradient(circle, rgba(196,30,107,0.18) 0%, transparent 70%);
+  top: -20%;
+  left: -10%;
+  animation: orbDrift1 18s ease-in-out infinite;
+}
+
+.orb-b {
+  width: 50vw;
+  height: 50vw;
+  max-width: 600px;
+  max-height: 600px;
+  background: radial-gradient(circle, rgba(232,115,154,0.14) 0%, transparent 70%);
+  top: 10%;
+  right: -15%;
+  animation: orbDrift2 22s ease-in-out infinite;
+}
+
+.orb-c {
+  width: 70vw;
+  height: 40vw;
+  max-width: 800px;
+  max-height: 500px;
+  background: radial-gradient(ellipse, rgba(240,208,128,0.07) 0%, transparent 70%);
+  bottom: -5%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: orbDrift3 26s ease-in-out infinite;
+}
+
+.orb-d {
+  width: 35vw;
+  height: 35vw;
+  max-width: 400px;
+  max-height: 400px;
+  background: radial-gradient(circle, rgba(253,232,216,0.09) 0%, transparent 70%);
+  top: 40%;
+  left: 15%;
+  animation: orbDrift4 20s ease-in-out infinite;
+}
+
+/* ─── Fog ───────────────────────────────────────────────────── */
+.fog {
+  position: absolute;
+  width: 200%;
+  height: 60%;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0;
+}
+
+.fog-1 {
+  background: radial-gradient(ellipse,
+    rgba(255, 210, 225, 0.07) 0%,
+    rgba(255, 180, 200, 0.04) 40%,
+    transparent 70%
+  );
+  bottom: -10%;
+  left: -50%;
+  animation: fogDrift1 30s ease-in-out infinite 2s;
+}
+
+.fog-2 {
+  background: radial-gradient(ellipse,
+    rgba(255, 220, 230, 0.05) 0%,
+    transparent 65%
+  );
+  top: -10%;
+  left: -30%;
+  animation: fogDrift2 35s ease-in-out infinite 1s;
+}
+
+/* ─── Light Rays ────────────────────────────────────────────── */
+.light-rays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ray {
+  position: absolute;
+  top: -20%;
+  width: 2px;
+  height: 130%;
+  border-radius: 50%;
+  filter: blur(6px);
+  opacity: 0;
+  transform-origin: top center;
+}
+
+.ray-1 {
+  background: linear-gradient(to bottom, rgba(240,208,128,0.12), transparent);
+  left: 35%;
+  transform: rotate(-8deg);
+  animation: rayShimmer 12s ease-in-out infinite 3s;
+}
+
+.ray-2 {
+  background: linear-gradient(to bottom, rgba(255,200,220,0.09), transparent);
+  left: 50%;
+  transform: rotate(2deg);
+  filter: blur(10px);
+  animation: rayShimmer 16s ease-in-out infinite 5s;
+}
+
+.ray-3 {
+  background: linear-gradient(to bottom, rgba(240,208,128,0.08), transparent);
+  left: 65%;
+  transform: rotate(10deg);
+  animation: rayShimmer 14s ease-in-out infinite 7s;
+}
+
+/* ─── Particle Canvas ───────────────────────────────────────── */
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── Bokeh Layer ───────────────────────────────────────────── */
+.bokeh-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.bokeh-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: bokehFloat var(--dur) cubic-bezier(0.45, 0, 0.55, 1) var(--delay) infinite alternate;
+}
+
+/* ─── Stage & Bouquet ───────────────────────────────────────── */
+#stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  animation: cameraFloat 9s ease-in-out infinite;
+}
+
+#bouquet-container {
+  width: min(90vw, 600px);
+  height: min(95vh, 750px);
+  position: relative;
+}
+
+#bouquet-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ─── Stem grow animation controlled via clip-path height trick */
+.stem-path {
+  stroke-dasharray: var(--dash-len, 600);
+  stroke-dashoffset: var(--dash-len, 600);
+  animation: stemDraw 2.2s cubic-bezier(0.4, 0, 0.2, 1) var(--stem-delay, 0ms) forwards;
+}
+
+.leaf-group {
+  opacity: 0;
+  animation: leafReveal 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) var(--leaf-delay, 0ms) forwards;
+}
+
+.rose-group {
+  opacity: 0;
+  transform-origin: var(--tx, 350px) var(--ty, 400px);
+  animation: roseAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) var(--rose-delay, 0ms) forwards;
+}
+
+.rose-group.blooming .petal-layer {
+  animation-play-state: running;
+}
+
+.petal-layer {
+  transform-origin: 50% 100%;
+  transform: scaleY(0) scaleX(0.3);
+  animation: petalBloom 1.8s cubic-bezier(0.34, 1.4, 0.64, 1) var(--petal-delay, 0ms) both;
+  animation-play-state: paused;
+}
+
+.bouquet-sway {
+  animation: bouquetSway 6s ease-in-out infinite;
+  transform-origin: 350px 750px;
+}
+
+/* ─── Message Card ──────────────────────────────────────────── */
+#message-card {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px;
+}
+
+#message-card.visible {
+  opacity: 1;
+}
+
+.message-glow-ring {
+  position: absolute;
+  width: min(90vw, 520px);
+  height: min(90vw, 520px);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(232, 115, 154, 0.12) 0%,
+    rgba(196, 30, 107, 0.06) 50%,
+    transparent 70%
+  );
+  filter: blur(30px);
+  animation: messageGlowPulse 5s ease-in-out infinite;
+}
+
+.message-inner {
+  position: relative;
+  background: linear-gradient(160deg,
+    rgba(255, 240, 245, 0.06) 0%,
+    rgba(255, 220, 232, 0.04) 50%,
+    rgba(196, 30, 107, 0.04) 100%
+  );
+  border: 1px solid rgba(232, 180, 200, 0.18);
+  border-radius: 20px;
+  padding: clamp(28px, 6vw, 52px) clamp(24px, 7vw, 60px);
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 60px rgba(196, 30, 107, 0.15),
+    0 0 120px rgba(232, 115, 154, 0.08),
+    inset 0 0 40px rgba(255, 200, 220, 0.04);
+}
+
+.message-deco-top,
+.message-deco-bottom {
+  width: 120px;
+  margin: 0 auto 16px;
+  opacity: 0.7;
+}
+
+.message-deco-bottom {
+  margin: 16px auto 0;
+}
+
+.msg-title {
+  font-family: var(--font-script);
+  font-size: clamp(1.7rem, 5.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--blush);
+  text-shadow:
+    0 0 20px rgba(232, 115, 154, 0.6),
+    0 0 50px rgba(196, 30, 107, 0.3);
+  margin-bottom: 16px;
+  line-height: 1.2;
+  animation: textGlow 4s ease-in-out infinite 1s;
+}
+
+.msg-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.msg-divider span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(232, 180, 200, 0.4), transparent);
+}
+
+.msg-heart {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+.msg-line {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(0.95rem, 2.8vw, 1.25rem);
+  color: rgba(255, 232, 240, 0.85);
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: lineReveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.msg-line-1 { animation-delay: 0.2s; }
+.msg-line-2 { animation-delay: 0.7s; }
+.msg-line-3 { animation-delay: 1.4s; }
+.msg-line-4 { animation-delay: 1.9s; }
+
+.msg-signature {
+  margin-top: 28px;
+  font-family: var(--font-script);
+  font-size: clamp(1.1rem, 3.2vw, 1.5rem);
+  color: rgba(255, 214, 224, 0.9);
+  line-height: 1.7;
+  opacity: 0;
+  animation: lineReveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) 2.6s forwards;
+}
+
+.msg-name {
+  font-size: clamp(1.4rem, 4.5vw, 2rem);
+  font-weight: 700;
+  color: var(--blush);
+  text-shadow: 0 0 20px rgba(232, 115, 154, 0.5);
+}
+
+.msg-heart-inline {
+  font-size: 1em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes overlayFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes overlayRosePulse {
+  0%, 100% { filter: drop-shadow(0 0 24px rgba(232,115,154,0.6)) drop-shadow(0 0 50px rgba(196,30,107,0.3)); }
+  50%       { filter: drop-shadow(0 0 40px rgba(232,115,154,0.9)) drop-shadow(0 0 80px rgba(196,30,107,0.5)); }
+}
+
+@keyframes overlayTextFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1);   opacity: 0.6; }
+  50%       { transform: scale(1.8); opacity: 1; }
+}
+
+@keyframes orbDrift1 {
+  0%, 100% { transform: translate(0, 0)   scale(1); }
+  33%       { transform: translate(5%, 8%) scale(1.05); }
+  66%       { transform: translate(-4%, 4%) scale(0.97); }
+}
+
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%       { transform: translate(-6%, 5%) scale(1.08); }
+  70%       { transform: translate(3%, -4%) scale(0.95); }
+}
+
+@keyframes orbDrift3 {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50%       { transform: translateX(-50%) translateY(-6%) scale(1.05); }
+}
+
+@keyframes orbDrift4 {
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(8%, -10%); }
+}
+
+@keyframes fogDrift1 {
+  0%   { opacity: 0; transform: translateX(0); }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(10%); }
+}
+
+@keyframes fogDrift2 {
+  0%   { opacity: 0; transform: translateX(0) translateY(0); }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-8%) translateY(5%); }
+}
+
+@keyframes rayShimmer {
+  0%, 100% { opacity: 0; }
+  20%       { opacity: 1; }
+  50%       { opacity: 0.6; }
+  80%       { opacity: 0.9; }
+}
+
+@keyframes bokehFloat {
+  0%   { transform: translate(0, 0)   scale(1); }
+  100% { transform: translate(var(--bx, 20px), var(--by, -30px)) scale(var(--bs, 1.2)); }
+}
+
+@keyframes cameraFloat {
+  0%, 100% { transform: translate(0px, 0px); }
+  25%       { transform: translate(3px, -4px); }
+  50%       { transform: translate(-2px, -6px); }
+  75%       { transform: translate(-4px, -2px); }
+}
+
+@keyframes stemDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes leafReveal {
+  from { opacity: 0; transform: scale(0.4) rotate(var(--lr, -20deg)); }
+  to   { opacity: 1; transform: scale(1)   rotate(0deg); }
+}
+
+@keyframes roseAppear {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes petalBloom {
+  0%   { transform: scaleY(0)   scaleX(0.2) rotate(0deg); opacity: 0; }
+  60%  { transform: scaleY(1.1) scaleX(1.05) rotate(var(--pr, 0deg)); opacity: 1; }
+  100% { transform: scaleY(1)   scaleX(1)   rotate(var(--pr, 0deg)); opacity: 1; }
+}
+
+@keyframes bouquetSway {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(0.6deg); }
+  75%       { transform: rotate(-0.6deg); }
+}
+
+@keyframes messageGlowPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.05); }
+}
+
+@keyframes textGlow {
+  0%, 100% { text-shadow: 0 0 20px rgba(232,115,154,0.6), 0 0 50px rgba(196,30,107,0.3); }
+  50%       { text-shadow: 0 0 30px rgba(232,115,154,0.9), 0 0 80px rgba(196,30,107,0.5); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14%       { transform: scale(1.25); }
+  28%       { transform: scale(1); }
+  42%       { transform: scale(1.15); }
+  56%       { transform: scale(1); }
+}
+
+@keyframes lineReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .message-inner {
+    padding: 28px 22px;
+  }
+  .msg-title {
+    font-size: 1.6rem;
+  }
+  .msg-line {
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-height: 600px) {
+  #bouquet-container {
+    height: 90vh;
+  }
+  .message-inner {
+    padding: 20px 24px;
+  }
+}
