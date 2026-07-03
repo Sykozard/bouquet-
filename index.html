@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#1a0a10" />
+  <title>For Riji — With Love</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- TAP OVERLAY                                         -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div id="tap-overlay">
+    <div class="overlay-inner">
+      <div class="overlay-rose-icon">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="oi-grad" cx="50%" cy="60%" r="60%">
+              <stop offset="0%" stop-color="#ffd6e0"/>
+              <stop offset="100%" stop-color="#c41e6b"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="40" cy="38" rx="22" ry="26" fill="url(#oi-grad)" opacity="0.9"/>
+          <ellipse cx="26" cy="44" rx="16" ry="18" fill="url(#oi-grad)" opacity="0.8"/>
+          <ellipse cx="54" cy="44" rx="16" ry="18" fill="url(#oi-grad)" opacity="0.8"/>
+          <ellipse cx="40" cy="28" rx="14" ry="16" fill="url(#oi-grad)" opacity="0.85"/>
+          <ellipse cx="40" cy="22" rx="9" ry="10" fill="#ffeef4" opacity="0.9"/>
+        </svg>
+      </div>
+      <p class="overlay-hint">Tap anywhere to begin</p>
+      <div class="overlay-pulse"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- AMBIENT BACKGROUND LAYERS                          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div id="scene">
+
+    <!-- gradient orbs that shift slowly -->
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+    <div class="orb orb-d"></div>
+
+    <!-- fog layer -->
+    <div class="fog fog-1"></div>
+    <div class="fog fog-2"></div>
+
+    <!-- light rays -->
+    <div class="light-rays">
+      <div class="ray ray-1"></div>
+      <div class="ray ray-2"></div>
+      <div class="ray ray-3"></div>
+    </div>
+
+    <!-- particle canvas — falling petals + sparkles -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- bokeh layer (CSS circles blurred) -->
+    <div class="bokeh-layer" id="bokeh-layer"></div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- MAIN BOUQUET — built entirely by script.js -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="stage">
+      <div id="bouquet-container">
+        <svg id="bouquet-svg"
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 700 750"
+             preserveAspectRatio="xMidYMid meet">
+          <defs id="global-defs"></defs>
+          <g id="stems-layer"></g>
+          <g id="leaves-layer"></g>
+          <g id="roses-layer"></g>
+          <g id="accent-layer"></g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- MESSAGE CARD                                -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div id="message-card">
+      <div class="message-glow-ring"></div>
+      <div class="message-inner">
+        <div class="message-deco-top">
+          <svg viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 10 Q30 2 60 10 Q90 18 120 10" stroke="#d4a0b5" stroke-width="0.8" fill="none" opacity="0.6"/>
+            <circle cx="60" cy="10" r="3" fill="#e8b4c8" opacity="0.8"/>
+            <circle cx="20" cy="8" r="1.5" fill="#e8b4c8" opacity="0.5"/>
+            <circle cx="100" cy="12" r="1.5" fill="#e8b4c8" opacity="0.5"/>
+          </svg>
+        </div>
+        <h1 class="msg-title">For My Beautiful Riji</h1>
+        <div class="msg-divider">
+          <span></span>
+          <svg viewBox="0 0 24 24" class="msg-heart">
+            <path fill="#e8a0b8" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span></span>
+        </div>
+        <p class="msg-line msg-line-1">I may have fallen asleep…</p>
+        <p class="msg-line msg-line-2">but I never stopped loving you.</p>
+        <p class="msg-line msg-line-3">I hope these flowers make your day</p>
+        <p class="msg-line msg-line-4">just a little softer.</p>
+        <div class="msg-signature">
+          <p>Love,</p>
+          <p class="msg-name">Kaustav <span class="msg-heart-inline">❤️</span></p>
+        </div>
+        <div class="message-deco-bottom">
+          <svg viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 10 Q30 18 60 10 Q90 2 120 10" stroke="#d4a0b5" stroke-width="0.8" fill="none" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end #scene -->
+
+  <!-- audio element — src set by script to avoid preload issues -->
+  <audio id="bg-audio" loop preload="none"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
